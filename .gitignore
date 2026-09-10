@@ -1,0 +1,33 @@
+# 各子项目的构建产物和依赖
+**/node_modules/
+**/target/
+**/dist/
+**/unpackage/
+
+# 日志
+**/*.log
+**/npm-debug.log*
+
+# IDE
+**/.idea/
+**/*.iml
+**/.vscode/
+
+# OS
+**/.DS_Store
+**/Thumbs.db
+
+# 环境变量
+**/.env
+**/.env.local
+
+# 上传文件
+uploadPath/*
+!uploadPath/.gitkeep
+
+# 仿真程序缓存
+**/__pycache__/
+**/*.pyc
+
+# Git备份目录
+**/.git.backup/

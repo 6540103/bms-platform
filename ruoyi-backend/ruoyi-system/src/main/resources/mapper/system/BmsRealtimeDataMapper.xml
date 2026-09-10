@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BmsRealtimeDataMapper">
+
+    <resultMap type="BmsRealtimeData" id="BmsRealtimeDataResult">
+        <result property="id"              column="id" />
+        <result property="simTime"         column="sim_time" />
+        <result property="packVoltage"     column="pack_voltage" />
+        <result property="current"         column="current" />
+        <result property="power"           column="power" />
+        <result property="soc"             column="soc" />
+        <result property="soh"             column="soh" />
+        <result property="minCellVoltage"  column="min_cell_voltage" />
+        <result property="maxCellVoltage"  column="max_cell_voltage" />
+        <result property="voltageImbalance" column="voltage_imbalance" />
+        <result property="temperature"     column="temperature" />
+        <result property="ambientTemp"     column="ambient_temp" />
+        <result property="status"          column="status" />
+        <result property="cellVoltage"     column="cell_voltage" />
+        <result property="cellSoc"         column="cell_soc" />
+        <result property="capacityAh"      column="capacity_ah" />
+        <result property="cycleCount"      column="cycle_count" />
+        <result property="numCells"        column="num_cells" />
+        <result property="bmsStatus"       column="bms_status" />
+        <result property="createTime"      column="create_time" />
+    </resultMap>
+
+    <sql id="selectBmsRealtimeDataVo">
+        select id, sim_time, pack_voltage, current, power, soc, soh,
+               min_cell_voltage, max_cell_voltage, voltage_imbalance,
+               temperature, ambient_temp, status, cell_voltage, cell_soc,
+               capacity_ah, cycle_count, num_cells, bms_status, create_time
+        from bms_realtime_data
+    </sql>
+
+    <select id="selectBmsRealtimeDataById" parameterType="Long" resultMap="BmsRealtimeDataResult">
+        <include refid="selectBmsRealtimeDataVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectBmsRealtimeDataList" parameterType="BmsRealtimeData" resultMap="BmsRealtimeDataResult">
+        <include refid="selectBmsRealtimeDataVo"/>
+        <where>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectLatest" resultMap="BmsRealtimeDataResult">
+        <include refid="selectBmsRealtimeDataVo"/>
+        order by id desc limit 1
+    </select>
+
+    <insert id="insertBmsRealtimeData" parameterType="BmsRealtimeData">
+        insert into bms_realtime_data
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="simTime != null">sim_time,</if>
+            <if test="packVoltage != null">pack_voltage,</if>
+            <if test="current != null">current,</if>
+            <if test="power != null">power,</if>
+            <if test="soc != null">soc,</if>
+            <if test="soh != null">soh,</if>
+            <if test="minCellVoltage != null">min_cell_voltage,</if>
+            <if test="maxCellVoltage != null">max_cell_voltage,</if>
+            <if test="voltageImbalance != null">voltage_imbalance,</if>
+            <if test="temperature != null">temperature,</if>
+            <if test="ambientTemp != null">ambient_temp,</if>
+            <if test="status != null">status,</if>
+            <if test="cellVoltage != null">cell_voltage,</if>
+            <if test="cellSoc != null">cell_soc,</if>
+            <if test="capacityAh != null">capacity_ah,</if>
+            <if test="cycleCount != null">cycle_count,</if>
+            <if test="numCells != null">num_cells,</if>
+            <if test="bmsStatus != null">bms_status,</if>
+            create_time,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="simTime != null">#{simTime},</if>
+            <if test="packVoltage != null">#{packVoltage},</if>
+            <if test="current != null">#{current},</if>
+            <if test="power != null">#{power},</if>
+            <if test="soc != null">#{soc},</if>
+            <if test="soh != null">#{soh},</if>
+            <if test="minCellVoltage != null">#{minCellVoltage},</if>
+            <if test="maxCellVoltage != null">#{maxCellVoltage},</if>
+            <if test="voltageImbalance != null">#{voltageImbalance},</if>
+            <if test="temperature != null">#{temperature},</if>
+            <if test="ambientTemp != null">#{ambientTemp},</if>
+            <if test="status != null">#{status},</if>
+            <if test="cellVoltage != null">#{cellVoltage},</if>
+            <if test="cellSoc != null">#{cellSoc},</if>
+            <if test="capacityAh != null">#{capacityAh},</if>
+            <if test="cycleCount != null">#{cycleCount},</if>
+            <if test="numCells != null">#{numCells},</if>
+            <if test="bmsStatus != null">#{bmsStatus},</if>
+            sysdate(),
+        </trim>
+    </insert>
+
+    <delete id="deleteBmsRealtimeDataByIds" parameterType="String">
+        delete from bms_realtime_data where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
